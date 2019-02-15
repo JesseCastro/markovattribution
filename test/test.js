@@ -7,7 +7,7 @@ const testData = [
   {conversions:0, value:0, path:'C1'},
   {conversions:0, value:0, path:'C2 > C3'},
 ]
-var markovObj = new markov(testData,{
+var markovObj = new markov({
     devMsg: false,
     separator: ' > '
 });
