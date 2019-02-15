@@ -28,11 +28,6 @@ var markov = function(config){
         links.push(link);
     }
 
-    if (links.length <= 1) {
-        if (callback) callback(null);
-        return;
-    }
-
     for (var i = 1; i < links.length; i++) {
         var word = links[i-1];
         var cword = sanitize(word);
