@@ -1,7 +1,7 @@
 const Hash = require('hashish')
 const Matrix = require('stochasticmath')
 
-var markov = function(data,config){
+var markov = function(config){
   // The interface we'll return
   var self = {};
 
@@ -314,8 +314,6 @@ var markov = function(data,config){
 
 
   configure();
-
-  devMsg('channel attribution',self.channelAttribution(data))
 
   return self;
 }
