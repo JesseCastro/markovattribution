@@ -8,7 +8,7 @@ const testData = [
   {conversions:0, value:0, path:'C2 > C3'},
 ]
 var markovObj = new markov({
-    devMsg: false,
+    devMsg: true,
     separator: ' > '
 });
 describe('Channel Attribution', function() {

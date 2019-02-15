@@ -1,6 +1,6 @@
 # Markov Chain Channel Attribution
 
-This library is based off of Sergey Bryl's fantastic (article on Markov chain attribution)[https://analyzecore.com/2016/08/03/attribution-model-r-part-1/]. Tests included in the library are based off the results found in that tutorial.  The object of this library is to use markov chain math to find the removal effect of individual channels in customer journey paths.  This is a data-driven equivalent to heuristic attribution methods such as "first touch" and "last touch".  
+This library is based off of Sergey Bryl's fantastic [article on Markov chain attribution](https://analyzecore.com/2016/08/03/attribution-model-r-part-1/). Tests included in the library are based off the results found in that tutorial.  The object of this library is to use markov chain math to find the removal effect of individual channels in customer journey paths.  This is a data-driven equivalent to heuristic attribution methods such as "first touch" and "last touch".  
 
 ## Instantiation
 

@@ -9,6 +9,7 @@ var markov = function(config){
    * Public method, seeds the markov db
    */
   self.seed = function (conversions) {
+    devMsg('Seeding database with conversions: ',conversions.length)
     var words = [];
     var links = [];
     var db = {};
@@ -62,7 +63,7 @@ var markov = function(config){
     var n = db[cnext];
     n.words[next] = (Hash.has(n.words, next) ? n.words[next] : 0) + 1;
     n.next[''] = (n.next[''] || 0) + 1;
-
+    //devMsg('seeded db was', db)
     return db;
   };
 
@@ -70,6 +71,8 @@ var markov = function(config){
    * Public method, seeds the markov db without a channel
    */
   self.seedRm = function (conversions,channel) {
+    devMsg('Seeding removal database with conversions: ',conversions.length)
+
     var words = [];
     var links = [];
     var db = {};
@@ -138,6 +141,7 @@ var markov = function(config){
    * Public method, creates a stochastic matrix from the markov db
    */
   self.matrix = function(db){
+    devMsg('creating matrix of shape', Object.keys(db).length)
     var matrixObj = {}
     for(key in db){
       var row = db[key];
@@ -163,36 +167,32 @@ var markov = function(config){
       }
     }
 
-    function parseRow(row, values){
-      values.push(row['[START]']);
-      for(var ckey in row){
-        if(ckey!='[START]' && ckey!='[NULL]' && ckey!='[CONVERSION]'){
-          values.push(row[ckey])
-        }
-      }
-      values.push(row['[NULL]']);
-      values.push(row['[CONVERSION]']);
-      return values
-    }
-
-    var values = [];
-    var keys = ['[START]']
-    values = parseRow(matrixObj['[START]'],values);
+    var okeys = ['[START]']
     for(var rkey in matrixObj){
       if(rkey !='[START]' && rkey!='[NULL]' && rkey!='[CONVERSION]'){
-        values = parseRow(matrixObj[rkey],values)
-        keys.push(rkey)
+        okeys.push(rkey)
+      }
+    }
+    okeys.push('[NULL]');
+    okeys.push('[CONVERSION]');
+
+    var values = []
+    for(var i = 0; i < okeys.length; i++){
+      var rowkey = okeys[i];
+      for(var j = 0; j < okeys.length; j++){
+        var colkey = okeys[j];
+        if(matrixObj[rowkey]!== undefined){
+          values.push((matrixObj[rowkey][colkey]===undefined)?0:matrixObj[rowkey][colkey])
+        }
+        else{
+          values.push(0)
+        }
       }
     }
 
-    values = parseRow(matrixObj['[NULL]'],values);
-    values = parseRow(matrixObj['[CONVERSION]'],values);
-    keys.push('[NULL]');
-    keys.push('[CONVERSION]');
-
     var matrix = new Matrix()
-    matrix.setData(values, keys.length,keys.length)
-
+    matrix.setData(values, okeys.length,okeys.length)
+    //devMsg('matrix',matrix.toLogString())
     return matrix
   }
 
@@ -211,7 +211,7 @@ var markov = function(config){
     var db = self.seed(conversions);
     var matrix = self.matrix(db);
     var conversionProb = self.prob(matrix);
-
+    devMsg('Full graph probability is',conversionProb)
     var newDb = self.seedRm(conversions, channel);
     if(!newDb.hasOwnProperty('[CONVERSION]')){
       // No coversions so we know the removal effect is one
@@ -250,11 +250,14 @@ var markov = function(config){
    */
   self.channelAttribution = function(conversions){
     var channels = self.channels(conversions);
+    devMsg('Finding channel attribution for', channels)
     var attribution = {};
     var cumulative = 0;
     for(var i = 0; i < channels.length; i++){
       var channel = channels[i];
+      devMsg('Calculating removal effect of ', channel)
       var removalEffect = self.removalEffect(conversions,channel);
+      devMsg('Removal effect was', removalEffect);
       attribution[channel] = {
         removal: removalEffect
       };
@@ -272,7 +275,7 @@ var markov = function(config){
       attribution[channel]['conversions'] = attribution[channel].weighted * totalConversions;
       attribution[channel]['value'] = attribution[channel].weighted * totalValue;
     }
-
+    devMsg('Weighted values are ', attribution)
     return attribution;
   }
 
