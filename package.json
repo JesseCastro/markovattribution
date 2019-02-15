@@ -1,0 +1,27 @@
+{
+  "name": "markovattribution",
+  "version": "0.0.1",
+  "description": "Allows attribution to sources based on markov distribution.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JesseCastro/markovattribution.git"
+  },
+  "keywords": [
+    "markov",
+    "markov chain",
+    "attribution"
+  ],
+  "author": "Jesse R. Castro <jesse.r.castro@gmail.com>",
+  "dependencies": {
+    "hashish": "0.0.4",
+    "stochasticmath": "0.0.1"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  }
+}
