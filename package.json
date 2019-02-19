@@ -18,7 +18,7 @@
   "author": "Jesse R. Castro <jesse.r.castro@gmail.com>",
   "dependencies": {
     "hashish": "0.0.4",
-    "stochasticmath": "0.0.1"
+    "stochasticmath": "0.1.0"
   },
   "license": "ISC",
   "devDependencies": {
