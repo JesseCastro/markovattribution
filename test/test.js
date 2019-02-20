@@ -39,17 +39,26 @@ describe('Channel Attribution', function() {
   describe('#removalEffect()', function() {
     it('should return the expected removal effect of C1', function() {
       var expected = .5;
-      var test = markovObj.removalEffect(testData,'C1');
+      var seed = markovObj.seed(testData);
+      var matrix = markovObj.matrix(seed)
+      var full = markovObj.prob(matrix);
+      var test = markovObj.removalEffect(testData,'C1',full);
       assert.equal(expected,test);
     });
     it('should return the expected removal effect of C2', function() {
       var expected = 1;
-      var test = markovObj.removalEffect(testData,'C2');
+      var seed = markovObj.seed(testData);
+      var matrix = markovObj.matrix(seed)
+      var full = markovObj.prob(matrix);
+      var test = markovObj.removalEffect(testData,'C2',full);
       assert.equal(expected,test);
     });
     it('should return the expected removal effect of C3', function() {
       var expected = 1;
-      var test = markovObj.removalEffect(testData,'C3');
+      var seed = markovObj.seed(testData);
+      var matrix = markovObj.matrix(seed)
+      var full = markovObj.prob(matrix);
+      var test = markovObj.removalEffect(testData,'C3',full);
       assert.equal(expected,test);
     });
   });
