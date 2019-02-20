@@ -206,11 +206,7 @@ var markov = function(config){
   /**
    * Public method, gets the removal effect for a channel.
    */
-  self.removalEffect = function(conversions, channel){
-    // Calculate the conversion probability
-    var db = self.seed(conversions);
-    var matrix = self.matrix(db);
-    var conversionProb = self.prob(matrix);
+  self.removalEffect = function(conversions, channel, conversionProb){
     devMsg('Full graph probability is',conversionProb)
     var newDb = self.seedRm(conversions, channel);
     if(!newDb.hasOwnProperty('[CONVERSION]')){
@@ -253,10 +249,16 @@ var markov = function(config){
     devMsg('Finding channel attribution for', channels)
     var attribution = {};
     var cumulative = 0;
+
+    var seed = self.seed(conversions);
+    var matrix = self.matrix(seed);
+
+    var fullProb = self.prob(matrix);
+
     for(var i = 0; i < channels.length; i++){
       var channel = channels[i];
       devMsg('Calculating removal effect of ', channel)
-      var removalEffect = self.removalEffect(conversions,channel);
+      var removalEffect = self.removalEffect(conversions,channel,fullProb);
       devMsg('Removal effect was', removalEffect);
       attribution[channel] = {
         removal: removalEffect

@@ -109,7 +109,7 @@ returns:
 > 0.3333333333333
 ```
 
-### removalEffect(conversions, channel)
+### removalEffect(conversions, channel, fullprob)
 
 Returns the raw (unweighted) removal effect of channel for the set of conversions data.  Example:
 
@@ -128,7 +128,9 @@ const config = {
 
 var markov = new Markov(config)
 
-console.log(markov.removalEffect(data))
+var fullProbability = markov.prob()
+
+console.log(markov.removalEffect(data, 'C1', fullProbability))
 ```
 
 returns:
